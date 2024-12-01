@@ -3,12 +3,12 @@
 cmake_minimum_required(VERSION 3.20.0)
 
 # Uncomment if you must specify the board here
-set(BOARD fkmg_usq_pc1)
+set(BOARD fkmg_pc1)
 
 # Set BOARD_ROOT to the parent directory of the 'boards' folder
 list(APPEND BOARD_ROOT "/workspaces/usq_pc1")
 
-set(DTC_OVERLAY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/usq_pc1.overlay")
+set(DTC_OVERLAY_FILE "${CMAKE_CURRENT_SOURCE_DIR}/pc1.overlay")
 
 find_package(Zephyr REQUIRED HINTS $ENV{ZEPHYR_BASE})
 

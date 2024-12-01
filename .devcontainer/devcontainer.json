@@ -3,7 +3,7 @@
 {
 	// See https://github.com/zephyrproject-rtos/docker-image/pkgs/container/zephyr-build
 	// for the available builds.
-	"name": "terpsichore",
+	"name": "usq_pc1",
 	"image": "ghcr.io/zephyrproject-rtos/zephyr-build:v0.27.4",
 	"postCreateCommand": "sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi gdb-multiarch",
 	"customizations": {

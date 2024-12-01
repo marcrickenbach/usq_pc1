@@ -47,17 +47,17 @@ changed, we can manually change this by running the following command:
 $ export ZEPHYR_BASE=/workspaces/zephyr
 ```
 
-### Building Terpsichore
+### Building USQ PC1 
 
-You should now be able to build the Terpsichore project by running the 
+You should now be able to build the USQ PC1 project by running the 
 following command: 
 ```
 # For a pristine build:
-$ west build -p always -b fkmg_usq_pc1
+$ west build -p always -b fkmg_pc1
 ```
 ```
 # For a normal build
-$ west build -b fkmg_usq_pc1
+$ west build -b fkmg_pc1
 ```
 
 
