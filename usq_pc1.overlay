@@ -1,0 +1,177 @@
+/* TERPSICHORE OVERLAY */
+
+/{
+    zephyr,user {
+        dac-sw-gpios =  <&gpioc 4 GPIO_ACTIVE_HIGH>;
+        ldac-gpios   =  <&gpioc 6 GPIO_ACTIVE_LOW>;
+
+
+        io-channels         =  <&adc1 0>, // CV In 1
+                               <&adc1 1>, // CV In 2
+                               <&adc1 2>, // CV In 3
+                               <&adc1 3>, // CV In 4
+                               <&adc1 6>, // CH 1 Pot
+                               <&adc1 7>, // CH 2 Pot
+                               <&adc1 8>, // CH 3 Pot
+                               <&adc1 9>, // CH 4 Pot
+                               <&adc1 10>;// Param Pot
+
+        fkmg-gpios =    <&gpioc 14 GPIO_ACTIVE_HIGH>, // Mode LEDs
+                        <&gpiob  6 GPIO_ACTIVE_HIGH>,
+                        <&gpiob  5 GPIO_ACTIVE_HIGH>,
+                        <&gpiod  2 GPIO_ACTIVE_HIGH>,
+                        <&gpioc 11 GPIO_ACTIVE_HIGH>,
+
+                        <&gpioc 13 GPIO_ACTIVE_HIGH>, // Sub LEDs
+                        <&gpiob  7 GPIO_ACTIVE_HIGH>,
+                        <&gpiob  4 GPIO_ACTIVE_HIGH>,
+                        <&gpioc 12 GPIO_ACTIVE_HIGH>,
+                        <&gpioc 10 GPIO_ACTIVE_HIGH>,
+
+                        <&gpiob 8 GPIO_ACTIVE_HIGH>, // Mode Select
+                        <&gpiob 9 GPIO_ACTIVE_HIGH>; // Sub Select
+        };
+
+};
+
+
+/**************************************/
+
+&clk_hse {
+	/delete-property/ hse-bypass;
+};
+
+&rcc {
+    clocks = <&pll>;
+    clock-frequency = <DT_FREQ_M(168)>;
+    ahb-prescaler = <1>;
+    apb1-prescaler = <4>; 
+    apb2-prescaler = <2>;
+};
+
+/* Highest possible values to get a precise 48MHz clock for the USB on PLLQ. 
+ * We could get the clock to 180MHz if we could derive the USB clock from the 
+ * PLLSAIP, but Zephyr doesn't yet support this. If we need these extra MHz 
+  * revisit this, for now probably ok. 
+  */
+&pll {
+    div-m = <8>;
+    mul-n = <336>;
+    div-p = <2>;
+    div-q = <7>;
+    clocks = <&clk_hse>;
+    status = "okay";
+};
+
+
+&adc1 {
+    pinctrl-0 = <&adc1_in0_pa0
+                 &adc1_in1_pa1 
+                 &adc1_in2_pa2 
+                 &adc1_in3_pa3
+                 &adc1_in6_pa6
+                 &adc1_in7_pa7
+                 &adc1_in8_pb0
+                 &adc1_in9_pb1
+                 &adc1_in10_pc0>;  
+    pinctrl-names = "default";
+    st,adc-prescaler = <2>;
+    status = "okay";
+    #address-cells = <1>;
+	#size-cells = <0>;
+
+	channel@0 { // CV In 1
+		reg = <0>;
+		zephyr,gain = "ADC_GAIN_1";
+		zephyr,reference = "ADC_REF_INTERNAL";
+		zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+		zephyr,resolution = <12>;
+	};
+    channel@1 { // CV In 1
+        reg = <1>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <12>;
+    };
+    channel@2 { // CV In 1
+        reg = <2>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <12>;
+    };
+    channel@3 { // CV In 1
+        reg = <3>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <12>;
+    };
+    channel@6 {
+        reg = <6>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <8>;
+    };
+    channel@7 {
+        reg = <7>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <8>;
+    };
+    channel@8 {
+        reg = <8>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <8>;
+    };
+    channel@9 {
+        reg = <9>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <8>;
+    };
+    channel@a {
+        reg = <10>;
+        zephyr,gain = "ADC_GAIN_1";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,resolution = <8>;
+    };
+};
+
+
+&dac1 {
+    pinctrl-0 = <&dac_out2_pa5>;  
+    pinctrl-names = "default";
+    status = "okay";  
+};
+
+
+&i2c2 {
+    status = "okay";
+    clock-frequency = <400000>;
+    pinctrl-0 = <&i2c2_scl_pb10 &i2c2_sda_pb11>;
+    pinctrl-names = "default";
+
+    dac7578: dac7578@4c {
+        compatible = "ti,dac7578";
+        reg = <0x4c>;
+        status = "okay";
+    };
+};
+
+
+&dma1 {
+    status="okay";
+};
+
+
+&dma2 {
+    status="okay";
+};

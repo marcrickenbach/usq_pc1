@@ -1,0 +1,7 @@
+source "Kconfig.zephyr"
+
+# menu "FKMG USQ PC1"
+
+# rsource "drivers/Kconfig"
+
+# endmenu
