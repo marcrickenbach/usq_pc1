@@ -1,26 +1,7 @@
-# Terpsichore
+# USQ PC-1
 
-Terpsichore is a signal animator Eurorack module built on the 
-STM32F405RGT microcontroller. At the core of the module is a 
-4/8 channel VCA circuit that takes audio or CV inputs and routes
-them in interesting ways to the eight outputs on the front panel. 
-Each of the four channels includes an audio/cv input, a cv input
-that controls the vca, and two outputs, x and y. Originally 
-conceived of as a four-channel crossfader/panner, the sampled
-CV value allows us to controll the animation of the signals in
-a variety of useful and playful ways. 
-
-Besides crossfading and panning, other (potential) functions 
-include sequential switch, multi-channel morph, CV processing,
-amplitude modulation, signal copying, sequencing, CV delay line 
-and much more. The original intent has grown into a robust 
-utility module with a very basic interface. Internal
-analog switches also allow the user to switch all outputs 
-to audio/cv output to be tied directly to the 12-bit DAC so 
-that Terpsichore can also be used as a 6 (possibly 8 in the
-future) channel LFO. 
-
-A USB mini-B input will allow for easy firmware updates.
+PC-1 is the first program card for the USQ system. At base
+it is a two-channel sequencer.
 
 
 ## VSCode Devcontainer
@@ -34,9 +15,9 @@ Ensure that VSCode and Docker are installed and running.
 In the VSCode Command Palette (CMD + SHIFT + P), select:
 Dev Containers: Clone Repository in Container Volume... 
 and enter the repository's address: 
-https://github.com/marcrickenbach/terpsichore.git
+https://github.com/marcrickenbach/usq_pc1.git
 
-This will create a container with the name terpsichore as well
+This will create a container with the name usq_pc1 as well
 as a Docker volume with a similar name. The container will mount
 to /workspaces.
 
@@ -45,13 +26,17 @@ along with other necessary tools, this initial process will take
 some time. 
 
 ### Building Zephyr and its tools
-Open a VSCode terminal. You should be at /workspaces/terpsichore,
+Open a VSCode terminal. You should be at /workspaces/usq_pc1,
 which is inside the cloned repository. From here, run the following 
 commands: 
 ```
+$ sudo chown -R $(whoami):$(whoami) /workspaces
 $ west init -l
 $ west update
 ```
+The first command changes permissions to the user so that we can 
+run the west init command in the workspaces directory. 
+
 The -l flag will create a new west workspace using the local west.yml
 file at the root of the project directory. This west manifest file
 tells the build system what modules we need to build. The west update
@@ -68,17 +53,17 @@ changed, we can manually change this by running the following command:
 $ export ZEPHYR_BASE=/workspaces/zephyr
 ```
 
-### Building Terpsichore
+### Building PC-1
 
-You should now be able to build the Terpsichore project by running the 
+You should now be able to build the USQ_PC1 project by running the 
 following command: 
 ```
 # For a pristine build:
-$ west build -p always -b fkmg_terpsichore
+$ west build -p always -b fkmg_pc1
 ```
 ```
 # For a normal build
-$ west build -b fkmg_terpsichore
+$ west build -b fkmg_pc1
 ```
 
 
